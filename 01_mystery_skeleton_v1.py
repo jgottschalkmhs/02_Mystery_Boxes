@@ -66,7 +66,7 @@ class Game:
         self.play_button.grid(row=3)
 
     def reveal_boxes(self):
-        # retrievel the balance from the initial function...
+        # retrieve the balance from the initial function...
         current_balance = self.balance.get()
 
         # Adjust the balance (subtract game cost and add pay out)
