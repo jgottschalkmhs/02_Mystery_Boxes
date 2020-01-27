@@ -32,9 +32,12 @@ class Game:
 
         # initialise variables
         self.balance = IntVar()
-
         # Set starting balance to amount entered by user at start of game
         self.balance.set(starting_balance)
+
+        # Get value of stakes (use it as a multiplier when calculating winnings
+        self.multiplier = IntVar()
+        self.multiplier.set(stakes)
 
         # GUI Setup
         self.game_box = Toplevel()
@@ -62,15 +65,15 @@ class Game:
         self.box_frame = Frame(self.game_frame)
         self.box_frame.grid(row=2, pady=10)
 
-        self.prize1_label = Label(self.box_frame, text="?", font=box_text,
+        self.prize1_label = Label(self.box_frame, text="?\n", font=box_text,
                                   bg=box_back, width=box_width, padx=10, pady=10)
         self.prize1_label.grid(row=0, column=0)
 
-        self.prize2_label = Label(self.box_frame, text="?", font=box_text,
+        self.prize2_label = Label(self.box_frame, text="?\n", font=box_text,
                                   bg=box_back, width=box_width, padx=10, pady=10)
         self.prize2_label.grid(row=0, column=1, padx=10)
 
-        self.prize3_label = Label(self.box_frame, text="?", font=box_text,
+        self.prize3_label = Label(self.box_frame, text="?\n", font=box_text,
                                   bg=box_back, width=box_width, padx=10, pady=10)
         self.prize3_label.grid(row=0, column=2)
 
@@ -81,9 +84,12 @@ class Game:
         self.play_button.grid(row=3)
 
         # Balance Label (row 4)
+
+        start_text = "Game Cost: ${} \n "" \nHow much " \
+                     "will you win?".format(stakes * 5)
+
         self.balance_label = Label(self.game_frame, font="Arial 12 bold", fg="green",
-                                   text="Welcome, your staring balance is "
-                                        "${}".format(starting_balance), wrap=300,
+                                   text=start_text, wrap=300,
                                    justify=LEFT)
         self.balance_label.grid(row=4, pady=10)
 
@@ -104,40 +110,52 @@ class Game:
     def reveal_boxes(self):
         # retrieve the balance from the initial function...
         current_balance = self.balance.get()
+        stakes_multiplier = self.multiplier.get()
 
         round_winnings = 0
         prizes = []
         for item in range(0, 3):
-            chosen = self.generate_prize()
-            prizes.append(chosen)
+            prize_num = random.randint(1,100)
 
+            if 0 < prize_num <= 5:
+                prize = "gold\n($5)"
+                round_winnings += 5 * stakes_multiplier
+            elif 5 < prize_num <= 25:
+                prize = "silver\n($2)"
+                round_winnings += 2 * stakes_multiplier
+            elif 25 < prize_num <= 65:
+                prize = "copper\n($1)"
+                round_winnings += stakes_multiplier
+            else:
+                prize = "lead\n($0)"
+
+            prizes.append(prize)
+
+        # Display prizes...
         self.prize1_label.config(text=prizes[0])
         self.prize2_label.config(text=prizes[1])
         self.prize3_label.config(text=prizes[2])
 
-        # Adjust the balance (subtract game cost and add pay out)
-        # For testing purposes, just add 2
-        current_balance += 2
+        # Deduct cost of game
+        current_balance -= 5 * stakes_multiplier
+
+        # Add Winnings
+        current_balance += round_winnings
+
+        # Set balance to new balance
+        self.balance.set(current_balance)
 
         # Set balance to adjusted balance
         self.balance.set(current_balance)
 
-        # Edit label so user can see their balance
-        self.balance_label.configure(text="Balance: {}".format(current_balance))
+        balance_statement = "Game Cost: ${}\nPayback: ${} \n" \
+                            "Current Balance: ${}".format(5 * stakes_multiplier,
+                                                          round_winnings,
+                                                          current_balance)
 
-    def generate_prize(self):
-        # Generate Prizes
-        prize_num = random.randint(1,100)
-        # prize += " "
-        if 0 < prize_num <= 5:
-            prize = "gold"
-        elif 5 < prize_num <= 25:
-            prize = "silver"
-        elif 25 < prize_num <= 65:
-            prize = "copper"
-        else:
-            prize = "lead"
-        return(prize)
+        # Edit label so user can see their balance
+        self.balance_label.configure(text=balance_statement)
+
 
 # main routine
 if __name__ == "__main__":
