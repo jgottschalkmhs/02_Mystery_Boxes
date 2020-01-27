@@ -17,7 +17,7 @@ class Start:
 
         # retrieve starting balance
         starting_balance = 50
-        stakes = 1
+        stakes = 2
 
         Game(self, stakes, starting_balance)
 
@@ -118,13 +118,13 @@ class Game:
             prize_num = random.randint(1,100)
 
             if 0 < prize_num <= 5:
-                prize = "gold\n($5)"
+                prize = "gold\n(${})".format(5* stakes_multiplier)
                 round_winnings += 5 * stakes_multiplier
             elif 5 < prize_num <= 25:
-                prize = "silver\n($2)"
+                prize = "silver\n(${})".format(2* stakes_multiplier)
                 round_winnings += 2 * stakes_multiplier
             elif 25 < prize_num <= 65:
-                prize = "copper\n($1)"
+                prize = "copper\n(${})".format(1* stakes_multiplier)
                 round_winnings += stakes_multiplier
             else:
                 prize = "lead\n($0)"
@@ -143,9 +143,6 @@ class Game:
         current_balance += round_winnings
 
         # Set balance to new balance
-        self.balance.set(current_balance)
-
-        # Set balance to adjusted balance
         self.balance.set(current_balance)
 
         balance_statement = "Game Cost: ${}\nPayback: ${} \n" \
