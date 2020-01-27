@@ -89,6 +89,7 @@ class Start:
                 error_feedback = "Sorry, the least you " \
                                  "can play with is $5"
             elif starting_balance > 50:
+                has_errors = "yes"
                 error_feedback = "Too high!  The most you can risk in " \
                                  "this game is $50"
             elif starting_balance < 10 and (stakes == 2 or stakes == 3):
@@ -112,7 +113,7 @@ class Start:
             Game(self, stakes, starting_balance)
 
             # hide start up window
-            root.withdraw()
+            # root.withdraw()
 
 
 class Game:
