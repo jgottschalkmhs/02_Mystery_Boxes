@@ -43,6 +43,7 @@ class Game:
         # Set starting balance to amount entered by user at start of game
         self.balance.set(starting_balance)
 
+
         # GUI Setup
         self.game_box = Toplevel()
         self.game_frame = Frame(self.game_box)
