@@ -95,7 +95,8 @@ class GameStats:
         self.start_balance_label.grid(row=0, column=0, padx=0)
 
         self.start_balance_value_label = Label(self.details_frame, font=content,
-                                               text="${}".format(game_stats[0]), anchor="w")
+                                               text="${}".format(game_stats[0]),
+                                               anchor="w")
         self.start_balance_value_label.grid(row=0, column=1, padx=0)
 
         # Current Balance (row 2.2)
