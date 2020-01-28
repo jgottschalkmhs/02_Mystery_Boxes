@@ -1,3 +1,5 @@
+# writes BOTH lists to file...
+
 from tkinter import *
 from functools import partial   # To prevent unwanted windows
 
@@ -121,6 +123,10 @@ class GameStats:
             win_loss = "Amount Lost:"
             amount = game_stats[0] - game_stats[1]
             win_loss_fg = "#660000"
+
+        # Add amount won / lost to all_game_stats list for export
+        all_game_stats.append("{} {}".format(win_loss, amount))
+        all_game_stats.append("Rounds Played: {}".format(len(game_history)))
 
         # Amount won / lost (row 2.3)
         self.wind_loss_label = Label(self.details_frame,
@@ -273,6 +279,16 @@ class Export:
 
             # create file to hold data
             f = open(filename, "w+")
+
+            # Heading for Stats
+            f.write("Game Statistics\n\n")
+
+            # Game stats
+            for round in game_stats:
+                f.write(round + "\n")
+
+            # Heading for Rounds
+            f.write("\nRound Details\n\n")
 
             # add new line at end of each item
             for item in game_history:
