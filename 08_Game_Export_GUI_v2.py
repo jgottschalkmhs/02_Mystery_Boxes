@@ -174,6 +174,7 @@ class GameStats:
     def export(self, game_history, all_game_stats):
         Export(self, game_history, all_game_stats)
 
+
 class Export:
     def __init__(self, partner, game_history, all_game_stats):
 
@@ -186,14 +187,16 @@ class Export:
         self.export_box = Toplevel()
 
         # If users press cross at top, closes export and 'releases' export button
-        self.export_box.protocol('WM_DELETE_WINDOW', partial(self.close_export, partner))
+        self.export_box.protocol('WM_DELETE_WINDOW', partial(self.close_export,
+                                                             partner))
 
         # Set up GUI Frame
         self.export_frame = Frame(self.export_box, width=300,)
         self.export_frame.grid()
 
         # Set up Export heading (row 0)
-        self.how_heading = Label(self.export_frame, text="Export / Instructions",
+        self.how_heading = Label(self.export_frame, text="Export / "
+                                                         "Instructions",
                                  font="arial 14 bold")
         self.how_heading.grid(row=0)
 

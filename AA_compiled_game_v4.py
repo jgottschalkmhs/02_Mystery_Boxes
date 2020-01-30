@@ -80,7 +80,6 @@ class Start:
         self.medium_stakes_button.config(state=DISABLED)
         self.high_stakes_button.config(state=DISABLED)
 
-
     def check_funds(self):
         starting_balance = self.start_amount_entry.get()
 
@@ -142,6 +141,7 @@ class Start:
         self.start_frame.destroy()
         Game(self, stakes, starting_balance)
 
+
 class Game:
     def __init__(self, partner, stakes, starting_balance):
         print(stakes)
@@ -158,7 +158,7 @@ class Game:
 
         # List for holding statistics
         self.round_stats_list = []
-        self.game_stats_list=[starting_balance, 0]
+        self.game_stats_list=[starting_balance, starting_balance]
 
         # GUI Setup
         self.game_box = Toplevel()
