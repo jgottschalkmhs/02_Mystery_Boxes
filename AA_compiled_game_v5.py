@@ -142,6 +142,7 @@ class Start:
         self.start_frame.destroy()
         Game(self, stakes, starting_balance)
 
+
 class Game:
     def __init__(self, partner, stakes, starting_balance):
 
@@ -156,7 +157,6 @@ class Game:
 
         # List for holding statistics
         self.round_stats_list = []
-        self.game_stats_list=[starting_balance, starting_balance]
 
         # GUI Setup
         self.game_box = Toplevel()
@@ -227,12 +227,11 @@ class Game:
 
         self.help_button = Button(self.help_export_frame, text="Help / Rules",
                                   font="Arial 15 bold",
-                                  bg="#808080", fg="white", command=self.to_help)
+                                  bg="#808080", fg="white")
         self.help_button.grid(row=0, column=0, padx=2)
 
         self.stats_button = Button(self.help_export_frame, text="Game Stats...",
-                                   font="Arial 15 bold", bg="#003366", fg="white",
-                                   command=lambda: self.to_stats(self.round_stats_list, self.game_stats_list))
+                                   font="Arial 15 bold", bg="#003366", fg="white")
         self.stats_button.grid(row=0, column=1, padx=2)
 
         # Quit Button
@@ -250,19 +249,26 @@ class Game:
         prizes = []
         stats_prizes = []
 
+        # Allows photo to change depending on stakes.
+        # Lead not in the list as that is always 0
+        copper = ["copper_low.gif", "copper_med.gif", "copper_high.gif"]
+        silver = ["silver_low.gif", "silver_med.gif", "silver_high.gif"]
+        gold = ["gold_low.gif", "gold_med.gif", "gold_high.gif"]
+
         for item in range(0, 3):
             prize_num = random.randint(1, 100)
 
             if 0 < prize_num <= 5:
-                prize = PhotoImage(file="gold.gif")
+                # prize image references list, need -1 so position is correct.
+                prize = PhotoImage(file=gold[stakes_multiplier-1])
                 prize_list = "gold (${})".format(5 * stakes_multiplier)
                 round_winnings += 5 * stakes_multiplier
             elif 5 < prize_num <= 25:
-                prize = PhotoImage(file="silver.gif")
+                prize = PhotoImage(file=silver[stakes_multiplier-1])
                 prize_list = "silver (${})".format(2 * stakes_multiplier)
                 round_winnings += 2 * stakes_multiplier
             elif 25 < prize_num <= 65:
-                prize = PhotoImage(file="copper.gif")
+                prize = PhotoImage(file=copper[stakes_multiplier-1])
                 prize_list = "copper (${})".format(1 * stakes_multiplier)
                 round_winnings += stakes_multiplier
             else:
@@ -292,9 +298,6 @@ class Game:
 
         # Set balance to new balance
         self.balance.set(current_balance)
-        # update game_stats_list with current balance (replace item in
-        # position 1 with current balance)
-        self.game_stats_list[1] = current_balance
 
         balance_statement = "Game Cost: ${}\nPayback: ${} \n" \
                             "Current Balance: ${}".format(5 * stakes_multiplier,
@@ -323,12 +326,6 @@ class Game:
                                 "or view your stats.  Sorry about that.".format(current_balance)
             self.balance_label.config(fg="#660000", font="Arial 10 bold",
                                       text=balance_statement)
-
-    def to_stats(self, game_history, game_stats):
-        GameStats(self, game_history, game_stats)
-
-    def to_help(self):
-        get_help = Help(self)
 
     def to_quit(self):
         root.destroy()
@@ -515,6 +512,7 @@ class GameStats:
 
     def export(self, game_history, all_game_stats):
         Export(self, game_history, all_game_stats)
+
 
 class Export:
     def __init__(self, partner, game_history, all_game_stats):
