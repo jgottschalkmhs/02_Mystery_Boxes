@@ -156,7 +156,7 @@ class Game:
 
         # List for holding statistics
         self.round_stats_list = []
-        self.game_stats_list=[starting_balance, 0]
+        self.game_stats_list=[starting_balance, starting_balance]
 
         # GUI Setup
         self.game_box = Toplevel()
