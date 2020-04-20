@@ -159,6 +159,10 @@ class Game:
         self.game_stats_list = []
         self.round_stats_list = []
 
+        # add starting balance to game_stats list
+        self.game_stats_list.append(starting_balance)
+        self.game_stats_list.append(0)
+
         # GUI Setup
         self.game_box = Toplevel()
 
@@ -298,6 +302,9 @@ class Game:
         # Add Winnings
         current_balance += round_winnings
 
+        # Put current balance into game stats...
+        self.game_stats_list[1] = current_balance
+
         # Set balance to new balance
         self.balance.set(current_balance)
 
@@ -394,6 +401,8 @@ class Help:
 
 class GameStats:
     def __init__(self, partner, game_history, game_stats):
+
+        print(game_stats)
 
         all_game_stats =[
             "Starting Balance: ${}".format(game_stats[0]),

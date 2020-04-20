@@ -8,13 +8,13 @@ import random
 class Start:
     def __init__(self, parent):
 
-        # GUI to get starting balance and stakes
-        self.start_frame = Frame(padx=10, pady=10)
-        self.start_frame.grid()
-
         # Set Initial balance to zero
         self.starting_funds = IntVar()
         self.starting_funds.set(0)
+
+        # GUI to get starting balance and stakes
+        self.start_frame = Frame(padx=10, pady=10)
+        self.start_frame.grid()
 
         # Mystery Heading (row 0)
         self.mystery_box_label = Label(self.start_frame, text="Mystery Box Game",
